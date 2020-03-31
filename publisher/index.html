@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Millicast - Realtime Streaming Demo (Broadcaster)</title>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1, shrink-to-fit=no, maximum-scale=10.0,user-scalable=1">
+  <link rel="stylesheet" href="css/publisher.css">
+  <script src="js/publisher.js"></script>
+  <script src="js/adapter-latest.js"></script>
+  
+</head>
+<body>
+  <div class="container">
+   <video id="localVideo" autoplay muted playsinline ></video>
+  <a id="viewerUrl" class="top-right" href="" target="_blank" ></a>
+  <div class="bottom-left">
+  <input type="button" id="publishBtn" class="inline-b" onclick="start()" value="START PUBLISH" />
+  <input type="button" id="micMuteBtn" class="inline-b" onclick="toggleMic()"  value="MUTE MIC" />
+ </div>
+    <div id="form" class="">
+        <input id="tokenTxt" class="base-input" type="hidden" value="" placeholder="Token" />
+        <input id="streamTxt" class="base-input ml-10 mr-10" type="hidden" value="" placeholder="Stream Name"/>
+        <input id="viewTxt" class="base-input" type="hidden" value="" placeholder="Account Id"/>
+    </div>
+    <div class="ml-10 mt-10">
+    <div class="ml-10 mt-10">
+</body>
+
+</html>
