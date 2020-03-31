@@ -147,7 +147,8 @@
           let answer = new RTCSessionDescription({
                                                    type: 'answer',
                           sdp:  data.sdp + "a=x-google-flag:conference\r\n",
-                           sdp: data.sdp + "a=MID:video\r\nb=AS:" + 1500 +"\r\n"
+                          //BIT RATE IS CAPPED HERE. JUST UNCOMMENT
+                           //sdp: data.sdp + "a=MID:video\r\nb=AS:" + 1500 +"\r\n"
                                                  });
 
           pc.setRemoteDescription(answer)
@@ -169,7 +170,7 @@
   function setIsBroadcasting(b){
     isBroadcasting = b;
     let btn       = document.getElementById('publishBtn');
-    btn.value = isBroadcasting ? 'STOP LIVE' : 'PUBLISH';
+    btn.value = isBroadcasting ? 'STOP LIVE' : 'START PUBLISH';
     btn.disabled  = false;
    if (btn.value == 'STOP LIVE'){
     btn.style.backgroundColor = "red"; 
