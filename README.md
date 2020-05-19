@@ -1,5 +1,5 @@
 # Millicast-Publisher-Player
-Costimizable Millicast Publisher Player
+Customizable Millicast Publisher Player
 
 Millicast Audio Only Podcaster
 
