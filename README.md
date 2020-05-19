@@ -9,7 +9,7 @@ You will need a Millicast account to get started. https://millicast.com/
 
 Once you have created a Millicast account you will need to create a live stream token.
 
-In your Millicast portal(+) Add a new token M Make sure to select Use ANY name for this set up!!!!!! Security options can be set up with this example using the Millicast API.
+In your Millicast portal(+) Add a new token and Make sure to select Use ANY name * for this set up!!!!!! Security options can be set up with this example using the Millicast API.
 Download the files. Open these files with a text editor.
 
 Open the JS/Publisher.js file.
