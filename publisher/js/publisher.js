@@ -118,8 +118,9 @@
             let data    = {
               name:  streamName,
               sdp:   desc.sdp,
-              //codec: 'h264'  //created audio sync issues with recording
-              codec: 'vp8'
+              codec: 'h264'  
+              //codec: 'vp8'
+              //codec: 'vp9'
             }
             //create payload
             let payload = {
