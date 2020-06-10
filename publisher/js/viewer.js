@@ -1,5 +1,5 @@
  let params = new URLSearchParams(document.location.search.substring(1));
- let accountId = 'YOURID'; //let accountId ADD YOUR ACCOUNT ID HERE   
+ let accountId = 'LZsuF8'; //let accountId ADD YOUR ACCOUNT ID HERE   
  let streamName = params.get('id');
  console.log('Millicast Viewer Stream: ', streamName);
 
@@ -120,11 +120,26 @@
       switch (msg.type) {
         //Handle counter response coming from the Media Server.
         case "response":
+          // let data   = msg.data;
+          // let answer = new RTCSessionDescription({
+          //                                          type: 'answer',
+          //                                          sdp:  data.sdp
+          //                                        });
           let data   = msg.data;
-          let answer = new RTCSessionDescription({
-                                                   type: 'answer',
-                                                   sdp:  data.sdp
-                                                 });
+          
+          let remotesdp = data.sdp;
+          if (remotesdp && remotesdp.indexOf('\na=extmap-allow-mixed') !== -1) {
+                  remotesdp = remotesdp.split('\n').filter(function (line) {
+                    return line.trim() !== 'a=extmap-allow-mixed';
+                  }).join('\n');
+                  console.log('trimed a=extmap-allow-mixed - sdp \n',remotesdp);
+                }
+
+          let answer = new RTCSessionDescription(
+          {
+            type: 'answer',
+            sdp:  remotesdp + "a=x-google-flag:conference\r\n"
+          });
 
           pc.setRemoteDescription(answer)
             .then(d => {
@@ -213,9 +228,9 @@
   }
 
 
-
+ let v = document.getElementsByTagName('video')[0];
   function ready() {
-    let v = document.getElementsByTagName('video')[0];
+    //let v = document.getElementsByTagName('video')[0];
     if (v) {
       v.addEventListener("click", evt => {
         v.play();
@@ -237,6 +252,23 @@
   } else {
     document.addEventListener('DOMContentLoaded', ready);
   }
+
+
+var wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+(async () => {
+  v.srcObject = await navigator.mediaDevices.getUserMedia({player: true});
+  while (true) {
+    console.log(v.currentTime);
+    await wait(100);
+  }
+})().catch(e => console.log(e));
+
+
+
+
+
+
 
 
 
