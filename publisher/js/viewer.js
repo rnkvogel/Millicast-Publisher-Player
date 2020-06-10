@@ -1,5 +1,5 @@
  let params = new URLSearchParams(document.location.search.substring(1));
- let accountId = 'LZsuF8'; //let accountId ADD YOUR ACCOUNT ID HERE   
+ let accountId = 'YOURID'; //let accountId ADD YOUR ACCOUNT ID HERE   
  let streamName = params.get('id');
  console.log('Millicast Viewer Stream: ', streamName);
 
