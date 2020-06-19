@@ -5,16 +5,38 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../css/viewer.css" rel="stylesheet">
+<link href="../css/offline.css" rel="stylesheet">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="../js/viewer.js"></script>
 <!-- Standard shim for WebRTC browser compatibility -->
 <script src="../js/adapter-latest.js"></script>
+<script src="../js/offline.js"></script>
+<script>
+    $(function(){
+Offline.options = {checks: {xhr: {url: '/connection-test'}}};
+        var 
+            $online = $('.online'),
+            $offline = $('.offline');
+
+        Offline.on('confirmed-down', function () {
+            $online.fadeOut(function () {
+                $offline.fadeIn();
+            });
+        });
+
+        Offline.on('confirmed-up', function () {
+            connect();
+            $offline.fadeOut(function () {
+                $online.fadeIn();
+            });
+        });
+});
+</script>
 <!-- autoplay = muted autoplay-->
 <div class="wrapper">
-<video id="player" disablePictureInPicture controlsList="nodownload" playsinline controls="true" autoplay muted poster="../images/starting.png"></video>
-<button id="audioBtn" class="btn-audio"  onclick="toggleMute()" type="button">Click to Enable Audio <br>When Stream Starts</button>
-
+<video id="player" disablePictureInPicture controlsList="nodownload" playsinline controls="true" autoplay muted="false"  poster="images/starting.png" ></video>
+<button id="audioBtn" class="btn-audio"  onClick="toggleMute()" type="button">Enable Audio <br>When Stream Starts</button>
 </div>
 </body>
 </html>
