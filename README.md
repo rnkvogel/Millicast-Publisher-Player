@@ -27,4 +27,5 @@ https://YOUR_WEB_SITE.com/publisher/publisher/?id=ANY_NAME
 
 The player link will pop up or you can embed using an frame. Source will look like this. https://YOUR_WEB_SITE.com/podcaster/player/?id=ANY_NAME
 
-Customize the publisher and player as you want.
+Customize the publisher and player as you want. Added offline message to player and lond delay reconnect.
+
