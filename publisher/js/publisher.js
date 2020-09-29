@@ -347,7 +347,7 @@
   function getMedia() {
     return new Promise((resolve, reject) => {
       
-      //getusermedia constraints
+      //getusermedia constraints  may be adjusted as needed. 
       /* let constraints = {
         audio:true,
         video: {
@@ -362,14 +362,19 @@
           ]
         }
       } */
+     
       let constraints = {
-        audio:true,
-        video: {
-          width:  1280,
-          height: 720,
-          frameRate: 24 ,
+          audio: {
+          echoCancellation: true,
+          sampleRate: 48000,
+          channelCount: 2,
+          },
+          video: {
+          width:  1920,
+          height: 1080,
+          frameRate: 30 ,
           advanced: [
-            { aspectRatio: 16/9 }
+          { aspectRatio: 16/9 }
           ]
         }
       }
