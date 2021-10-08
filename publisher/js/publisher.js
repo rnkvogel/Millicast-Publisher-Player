@@ -302,6 +302,14 @@ return new Promise( (resolve, reject) => {
 
             }
           );
+          if (navigator.userAgent.indexOf("Firefox") != -1) {
+           answer = new RTCSessionDescription(
+           { type: 'answer', sdp:  remotesdp + "a=x-google-flag:conference\r\n",
+             sdp: data.sdp + "a=MID:video\r\nb=TIAS:" + document.getElementById("bitrate").value * 800 +"\r\n"            }
+
+           );
+          }
+
 
 
           pc.setRemoteDescription(answer)
