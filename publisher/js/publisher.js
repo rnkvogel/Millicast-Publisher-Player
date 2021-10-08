@@ -109,13 +109,6 @@ function toggleMic() {
   }
 }
 //set COG features
-//const appliedPromise = track.applyConstraints([constraints]);
-let supported = navigator.mediaDevices.getSupportedConstraints();
-const minWidthInput = document.querySelector('div#minWidth input');
-const maxWidthInput = document.querySelector('div#maxWidth input');
-const minHeightInput = document.querySelector('div#minHeight input');
-const maxHeightInput = document.querySelector('div#maxHeight input');
-
 
 function openForm() {
 document.getElementById("cogForm").style.display = "block";
@@ -175,8 +168,7 @@ let vHeight = 240;
 
 
 //set Aspect
-//let aspectRatio = document.querySelector('#aspect value');
-let aspectRation = 1.77778;
+let aspectRatio = document.querySelector('#aspect value');
 function getAspect() {
 aspectRatio = document.getElementById("aspect").value;
 alert("Your Aspect "  + aspectRatio );
@@ -184,7 +176,7 @@ alert("Your Aspect "  + aspectRatio );
 selObj = document.getElementById('localVideo');
 //selObj.value = "cover" ? 'contain' : 'cover';
 
-  if (aspectRatio.value = "1.77778"){
+  if (aspectRatio.value = "1.7777"){
   //selObj.style.objectFit = "cover";
   aspectRatio.value= '1.7';
 
@@ -654,8 +646,6 @@ const intConstraints = {
  
 }
 };
-
-
   navigator.mediaDevices.getUserMedia(intConstraints)
    .then(str  => {
     // track.applyConstraints()
@@ -798,16 +788,16 @@ if (feed) {
 const audioSource = audioInputSelect.value;
 const videoSource = videoSelect.value;
 const track = feed.getVideoTracks()[0];
-const constraints = {
+const newConstraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
   width: {min: 640, ideal: 1280, max: 1920},
   height: {min: 480, ideal: 720, max: 1080},
   frameRate: { min: videoFps, max: 60 },
-  advanced: [ {width: vWidth, height:vHeight}, {aspectRatio: aspectRatio} ]
+ advanced: [ {width: vWidth, height:vHeight}, {aspectRatio: aspectRatio} ]
 }
 };
-navigator.mediaDevices.getUserMedia(constraints).then(gotStream)
+navigator.mediaDevices.getUserMedia(newConstraints).then(gotStream)
 .then(function(gotdevices) {
 
 audioInputSelect.onchange = updateSource;
