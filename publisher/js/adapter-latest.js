@@ -3840,6 +3840,10 @@ module.exports = function(window, edgeVersion) {
         remoteDtlsParameters = SDPUtils.getDtlsParameters(mediaSection,
             sessionpart);
         remoteDtlsParameters.role = 'client';
+        //Fix for Edge
+        if (isIceLite) {
+          remoteDtlsParameters.role = 'server';
+        }
       }
       recvEncodingParameters =
           SDPUtils.parseRtpEncodingParameters(mediaSection);
