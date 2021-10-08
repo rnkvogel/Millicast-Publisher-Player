@@ -800,8 +800,8 @@ const track = feed.getVideoTracks()[0];
 const constraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
-  width: {min: 640, ideal: vWidth, max: 1920},
-  height: {min: 480, ideal: vHeight, max: 1080},
+  width: {min: 640, ideal: 1280, max: 1920},
+  height: {min: 480, ideal: 720, max: 1080},
   frameRate: { min: videoFps, max: 60 },
   advanced: [ {width: vWidth, height:vHeight}, {aspectRatio: aspectRatio} ]
 }
