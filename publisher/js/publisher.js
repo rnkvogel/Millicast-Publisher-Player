@@ -175,7 +175,8 @@ let vHeight = 240;
 
 
 //set Aspect
-let aspectRatio = document.querySelector('#aspect value');
+//let aspectRatio = document.querySelector('#aspect value');
+let aspectRation = 1.77778;
 function getAspect() {
 aspectRatio = document.getElementById("aspect").value;
 alert("Your Aspect "  + aspectRatio );
@@ -183,7 +184,7 @@ alert("Your Aspect "  + aspectRatio );
 selObj = document.getElementById('localVideo');
 //selObj.value = "cover" ? 'contain' : 'cover';
 
-  if (aspectRatio.value = "1.7777"){
+  if (aspectRatio.value = "1.77778"){
   //selObj.style.objectFit = "cover";
   aspectRatio.value= '1.7';
 
