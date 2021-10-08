@@ -117,13 +117,6 @@ const minHeightInput = document.querySelector('div#minHeight input');
 const maxHeightInput = document.querySelector('div#maxHeight input');
 
 
-//Testing
-//const minWidthInput = 1280;
-//const maxWidthInput = 1920;
-//const minHeightInput = 720;
-//const maxHeightInput = 1080;
-//const minFramerateInput = 29;
-//const maxFramerateInput = 26;
 function openForm() {
 document.getElementById("cogForm").style.display = "block";
 }
@@ -653,13 +646,12 @@ let a = true;
 //intial on Load Cameraconstraints
 const intConstraints = {
      audio: a,
-     video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
-     width: {min: 640, ideal: vWidth, max: 1920},
-     height: {min: 480, ideal: vHeight, max: 1080},
-     frameRate: { min: videoFps, ideal: 29.97 , max: 60 },
-     advanced: [ {width: vWidth, height:vHeight}]
+     video: {
+     frameRate: { min: videoFps , max: 60 }
+ 
 }
-  };
+};
+
   navigator.mediaDevices.getUserMedia(intConstraints)
    .then(str  => {
     // track.applyConstraints()
@@ -805,8 +797,8 @@ const track = feed.getVideoTracks()[0];
 const constraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
-  width: {min: 1280, ideal: vWidth, max: 1920},
-  height: {min: 720, ideal: vHeight, max: 1080},
+  width: {min: 640, ideal: vWidth, max: 1920},
+  height: {min: 480, ideal: vHeight, max: 1080},
   frameRate: { min: videoFps, max: 60 },
   advanced: [ {width: vWidth, height:vHeight}, {aspectRatio: aspectRatio} ]
 }
