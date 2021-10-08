@@ -647,10 +647,13 @@ let a = true;
 const intConstraints = {
      audio: a,
      video: {
-     frameRate: { min: videoFps , max: 60 }
+    width: {min: 640, ideal: 1280, max: 1920},
+    height: {min: 480, ideal: 720, max: 1080},
+    frameRate: { min: videoFps , max: 60 },
  
 }
 };
+
 
   navigator.mediaDevices.getUserMedia(intConstraints)
    .then(str  => {
