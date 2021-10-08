@@ -12,7 +12,7 @@ let token = params.get('tokenTxt');
 let streamName = Math.random().toString(36).substring(7);  //name can be generated on each load
 let accountId = params.get('viewTxt');
 
-let player1 = "https://rnkvogel.github.io/Millicast-Publisher-Player/player/?accountId=" + accountId + "&streamName=" + streamName ;
+let player1 = "https://rnkvogel.github.io/Millicast-Publisher-Player/publisher/player/?accountId=" + accountId + "&streamName=" + streamName ;
 
 const codec = 'h264'; //'vp8', 'vp9'
 const stereo = true;//true for stereo
