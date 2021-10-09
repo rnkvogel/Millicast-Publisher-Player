@@ -294,11 +294,11 @@ return new Promise( (resolve, reject) => {
             }).join('\n');
             console.log('trimed a=extmap-allow-mixed - sdp \n',remotesdp);
           }
-
+          //CHROME 94 Bit rate is lower asjusted
           let answer = new RTCSessionDescription(
             { type: 'answer',
               sdp:  remotesdp + "a=x-google-flag:conference\r\n",
-              sdp: data.sdp + "a=MID:video\r\nb=AS:" + videoBitrate +"\r\n"
+              sdp: data.sdp + "a=MID:video\r\nb=AS:" + videoBitrate * 2.85 +"\r\n"
 
             }
           );
