@@ -298,7 +298,7 @@ return new Promise( (resolve, reject) => {
           let answer = new RTCSessionDescription(
             { type: 'answer',
               sdp:  remotesdp + "a=x-google-flag:conference\r\n",
-              sdp: data.sdp + "a=MID:video\r\nb=AS:" + videoBitrate * 2.85 +"\r\n"
+              sdp: data.sdp + "a=MID:video\r\nb=AS:" + videoBitrate  +"\r\n"
 
             }
           );
