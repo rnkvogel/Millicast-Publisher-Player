@@ -815,7 +815,7 @@ videoSelect.onchange = updateSource;
 
 console.log(track, feed ,"Track Updated");
 
-ws.close();
+//ws.close();//Update camera while publish
 connect();
 
 console.log(   feed ,"Track Updated");
@@ -839,6 +839,7 @@ alert('getUserMedia Error: ', e);
 });
 
 }
+function closeForm() {
 document.getElementById("cogForm").style.display = "none";
 stream.replaceTrack();
 }
