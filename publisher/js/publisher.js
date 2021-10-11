@@ -800,7 +800,7 @@ const newConstraints = {
   width: {min: 640, ideal: 1280, max: 1920},
   height: {min: 480, ideal: 720, max: 1080},
   frameRate: { min: videoFps, max: 60 },
- advanced: [ {width: vWidth, height:vHeight}, {aspectRatio: aspectRatio} ]
+ advanced: [ {width: vWidth, height:vHeight}, {aspectRatio: aspect.value} ]
 }
 };
 navigator.mediaDevices.getUserMedia(newConstraints).then(gotStream)
