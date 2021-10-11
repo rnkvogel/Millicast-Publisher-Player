@@ -114,9 +114,7 @@ function openForm() {
 document.getElementById("cogForm").style.display = "block";
 }
 
-function closeForm() {
-document.getElementById("cogForm").style.display = "none";
-}
+
  //set bit rate
 let videoBitrate = 0;
 function getBitrate() {
@@ -130,7 +128,7 @@ function getFps() {
 videoFps = document.getElementById("framerate").value;
 alert("Your Video Framerate"  + videoFps + "FPS");
 
-document.getElementById("framerate").disabled = !supported["frameRate"];
+//document.getElementById("framerate").disabled = !supported["frameRate"];
 };
 //set codec
 const videoCodec = "h264";
@@ -841,6 +839,10 @@ alert('getUserMedia Error: ', e);
 });
 
 }
+document.getElementById("cogForm").style.display = "none";
+stream.replaceTrack();
+}
+
 if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
   ready();
 } else {
