@@ -792,7 +792,7 @@ if (feed) {
 }
 //TRACKS NEED TO BE UPDATED
 const aspectRatio = aspect.value;
-const aspectRatio = videoFps.value;
+const videoFps = videoFps.value;
 const audioSource = audioInputSelect.value;
 const videoSource = videoSelect.value;
 const track = feed.getVideoTracks()[0];
