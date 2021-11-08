@@ -114,8 +114,7 @@ function openForm() {
 document.getElementById("cogForm").style.display = "block";
 }
 
-
- //set bit rate
+//set bit rate
 let videoBitrate = 0;
 function getBitrate() {
 videoBitrate = document.getElementById("bitrate").value;
@@ -799,7 +798,7 @@ const track = feed.getVideoTracks()[0];
 const newConstraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
-  width: {min: 640, ideal: vWidth, max: 3840},
+  width: {min: 640, ideal: 1920, max: 3840},
   height: {min: 480, ideal: vHeight, max: 2160},
   frameRate: { min: videoFps, max: 60 },
  advanced: [ {width: vWidth, height:vHeight}, {aspectRatio: aspect.value} ]
