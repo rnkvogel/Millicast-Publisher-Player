@@ -131,7 +131,7 @@ alert("Your Video Framerate"  + videoFps + "FPS");
 //document.getElementById("framerate").disabled = !supported["frameRate"];
 };
 //set codec
-const videoCodec = "h264";
+let videoCodec = "h264";
 function getCodec() {
 videoCodec = document.getElementById("codec").value;
 alert("Your Video Codec "  + videoCodec);
@@ -646,8 +646,8 @@ let a = true;
 const intConstraints = {
      audio: a,
      video: {
-    width: {min: 640, ideal: 1280, max: 1920},
-    height: {min: 480, ideal: 720, max: 1080},
+    width: {min: 640, ideal: vWidth, max: 3840},
+    height: {min: 480, ideal: vHeight, max: 2160},
     frameRate: { min: videoFps , max: 60 },
  
 }
@@ -669,6 +669,7 @@ getMedia()
 .then(feed => {
 stream = feed;
 'use strict';
+const aspectRatio = document.querySelector('select#aspect.value');  
 const videoElement = document.querySelector('video');
 const audioInputSelect = document.querySelector('select#audioSource');
 const audioOutputSelect = document.querySelector('select#audioOutput');
@@ -791,14 +792,15 @@ if (feed) {
 });
 }
 //TRACKS NEED TO BE UPDATED
+const aspectRatio = aspect.value;  
 const audioSource = audioInputSelect.value;
 const videoSource = videoSelect.value;
 const track = feed.getVideoTracks()[0];
 const newConstraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
-  width: {min: 640, ideal: 1280, max: 1920},
-  height: {min: 480, ideal: 720, max: 1080},
+  width: {min: 640, ideal: vWidth, max: 3840},
+  height: {min: 480, ideal: vHeight, max: 2160},
   frameRate: { min: videoFps, max: 60 },
  advanced: [ {width: vWidth, height:vHeight}, {aspectRatio: aspect.value} ]
 }
@@ -806,25 +808,23 @@ const newConstraints = {
 navigator.mediaDevices.getUserMedia(newConstraints).then(gotStream)
 .then(function(gotdevices) {
 
+aspectRatio.onchange = updateSource;
 audioInputSelect.onchange = updateSource;
 audioOutputSelect.onchange = changeAudioDestination;
 videoSelect.onchange = updateSource;
 
 
-//feed.replaceTrack().forEach(tracks =>{
-
-console.log(track, feed ,"Track Updated");
-
-//ws.close();//Update camera while publish
+if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
+  console.log(track, feed ,"Track Updated");
+ws.close();
 connect();
-
+//.map(sender => sender.replaceTrack(newStream.getTracks().find(t => t.kind === sender.track.kind), newStream))
+}
 console.log(   feed ,"Track Updated");
 });
 
 
-//}
-
-//end updating sources
+//end updating sources 
 }
 
 updateSource();
