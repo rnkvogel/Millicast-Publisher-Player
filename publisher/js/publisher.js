@@ -792,7 +792,7 @@ if (feed) {
 }
 //TRACKS NEED TO BE UPDATED
 const aspectRatio = aspect.value;
-const videoFps = videoFps.value;
+//const videoFps = videoFps.value;
 const audioSource = audioInputSelect.value;
 const videoSource = videoSelect.value;
 const track = feed.getVideoTracks()[0];
@@ -808,7 +808,7 @@ const newConstraints = {
 navigator.mediaDevices.getUserMedia(newConstraints).then(gotStream)
 .then(function(gotdevices) {
 
-videoFps.onchange = updateSource;  
+//videoFps.onchange = updateSource;  
 aspectRatio.onchange = updateSource;
 audioInputSelect.onchange = updateSource;
 audioOutputSelect.onchange = changeAudioDestination;
