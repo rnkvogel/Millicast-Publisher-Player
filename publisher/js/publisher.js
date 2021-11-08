@@ -122,10 +122,10 @@ alert("Your Video Bitrate "  + videoBitrate + "  BPS");
 
 };
 //set frame rate
-let videoFps = document.querySelector('div#framrate input');
+let videoFps = 24;
 function getFps() {
 videoFps = document.getElementById("framerate").value;
-alert("Your Video Framerate"  + videoFps + "FPS");
+alert("Your Video Framerate"  + videoFps + " FPS");
 
 //document.getElementById("framerate").disabled = !supported["frameRate"];
 };
