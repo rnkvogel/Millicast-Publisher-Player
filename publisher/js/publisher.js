@@ -130,13 +130,13 @@ alert("Your Video Framerate"  + videoFps + "FPS");
 
 //document.getElementById("framerate").disabled = !supported["frameRate"];
 };
-//set codec
-let videoCodec = "h264";
-function getCodec() {
-videoCodec = document.getElementById("codec").value;
-alert("Your Video Codec "  + videoCodec);
+  //set codec
+  let videoCodec = "h264";
+  function getCodec() {
+  videoCodec = document.getElementById("codec").value;
+  alert("Your Video Codec "  + videoCodec);
+  };
 
-};
 
 const vWidth = document.querySelector('#vWidth input');
 const vHeight = document.querySelector('#vHeight input');
