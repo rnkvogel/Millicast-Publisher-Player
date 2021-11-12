@@ -165,26 +165,31 @@ let vHeight = 240;
 
 
 //set Aspect
-let aspectRatio = document.querySelector('#aspect value');
+let aspectRatio = document.querySelector('#aspect.value');
 function getAspect() {
 aspectRatio = document.getElementById("aspect").value;
 alert("Your Aspect "  + aspectRatio );
-//applyMediaTrack();
+
 selObj = document.getElementById('localVideo');
-//selObj.value = "cover" ? 'contain' : 'cover';
 
-  if (aspectRatio.value = "1.7777"){
-  //selObj.style.objectFit = "cover";
-  aspectRatio.value= '1.7';
 
-  }
+  if (aspectRatio.value = "1.7777"){  
+  stream.getTracks().forEach(track => {
+  track.applyConstraints({aspectRatio:1.777778});
+  console.log(track ,  "Aspect is 16:9");
+
+})
+
+}
   if(aspectRatio.value ='1.4'){
-  //selObj.style.objectFit = "contain";
-  aspectRatio.value = '1.4';
-  //conect();
-  }
+  stream.getTracks().forEach(track => {
+  track.applyConstraints({aspectRatio:1.4});
+  console.log(track ,  " Aspect is 4:3");
 
+})
+}
 };
+
 
 function connect() {
 return new Promise( (resolve, reject) => {
