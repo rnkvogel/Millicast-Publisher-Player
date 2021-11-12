@@ -797,14 +797,13 @@ if (feed) {
 }
 //TRACKS NEED TO BE UPDATED
 const aspectRatio = aspect.value;
-//const videoFps = videoFps.value;
 const audioSource = audioInputSelect.value;
 const videoSource = videoSelect.value;
 const track = feed.getVideoTracks()[0];
 const newConstraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
-  width: {min: 640, ideal: 1920, max: 3840},
+  width: {min: 640, ideal: vWidth, max: 3840},
   height: {min: 480, ideal: vHeight, max: 2160},
   frameRate: { min: videoFps, max: 60 },
  advanced: [ {width: vWidth, height:vHeight}, {aspectRatio: aspect.value} ]
