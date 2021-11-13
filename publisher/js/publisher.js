@@ -768,7 +768,6 @@ if (feed) {
 });
 }
 //TRACKS NEED TO BE UPDATED
-const aspectRatio = aspect.value;
 const audioSource = audioInputSelect.value;
 const videoSource = videoSelect.value;
 const track = feed.getVideoTracks()[0];
@@ -816,14 +815,6 @@ alert('getUserMedia Error: ', e);
 }
 
 //set Aspect
-let aspectRatio = document.querySelector('#aspect.value');
-function getAspect() {
-aspectRatio = document.getElementById("aspect").value;
-alert("Your Aspect "  + aspectRatio );
-
-selObj = document.getElementById('localVideo');
-
-
 function getAspect16() { 
 
   if(aspect16.value = '1.7'){
