@@ -77,14 +77,10 @@
     <option value="320x240" id="sizeText">240<option>
  </select>  
 
- <label for="Aspect Ratio"><b>Aspect Ratio</b></label>
-  <select name="aspectRatio" class="selectAspect-content" onchange="getAspect()" id="aspect" >
-    <option value="1.777778" id="aspectText">16:9</option>
-    <option value="1.4" id="aspectText">4:3</option>
- </select>
+ <button type="button" class="Aspect 16" value="1.7" onclick="getAspect16()" id="aspect16">16:9</button>
+ <button type="button" class="Aspect 4" value="1.4" onclick="getAspect4()" id="aspect4">4:3</button>
 
 
-    <!-- <button type="submit" class="btn">Save</button>  -->
     <button type="button" class="btn cancel" onclick="closeForm()" id="cancel">Close</button>
   </form>
 
