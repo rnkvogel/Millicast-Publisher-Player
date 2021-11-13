@@ -646,7 +646,6 @@ getMedia()
 .then(feed => {
 stream = feed;
 'use strict';
-const aspectRatio = document.querySelector('select#aspect.value');  
 const videoElement = document.querySelector('video');
 const audioInputSelect = document.querySelector('select#audioSource');
 const audioOutputSelect = document.querySelector('select#audioOutput');
@@ -779,14 +778,12 @@ const newConstraints = {
   width: {min: 640, ideal: vWidth, max: 3840},
   height: {min: 480, ideal: vHeight, max: 2160},
   frameRate: { min: videoFps, max: 60 },
- advanced: [ {width: vWidth, height:vHeight}, {aspectRatio: aspect.value} ]
+ advanced: [ {width: vWidth, height:vHeight} ]
 }
 };
 navigator.mediaDevices.getUserMedia(newConstraints).then(gotStream)
 .then(function(gotdevices) {
 
-//videoFps.onchange = updateSource;  
-aspectRatio.onchange = updateSource;
 audioInputSelect.onchange = updateSource;
 audioOutputSelect.onchange = changeAudioDestination;
 videoSelect.onchange = updateSource;
@@ -827,15 +824,19 @@ alert("Your Aspect "  + aspectRatio );
 selObj = document.getElementById('localVideo');
 
 
-  if (aspectRatio.value = "1.7777"){  
+function getAspect16() { 
+
+  if(aspect16.value = '1.7'){
   stream.getTracks().forEach(track => {
-  track.applyConstraints({aspectRatio:1.777778});
-  console.log(track ,  "Aspect is 16:9");
+  track.applyConstraints({aspectRatio:1.77778});
+  console.log(track ,  " Aspect is 16:9");
 
 })
 
 }
-  if(aspectRatio.value ='1.4'){
+};
+function getAspect4() { 
+  if(aspect4.value = '1.4'){
   stream.getTracks().forEach(track => {
   track.applyConstraints({aspectRatio:1.4});
   console.log(track ,  " Aspect is 4:3");
@@ -843,6 +844,7 @@ selObj = document.getElementById('localVideo');
 })
 }
 };
+
 function closeForm() {
 document.getElementById("cogForm").style.display = "none";
 stream.replaceTrack();
