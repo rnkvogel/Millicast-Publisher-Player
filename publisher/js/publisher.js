@@ -789,13 +789,13 @@ videoSelect.onchange = updateSource;
 
 
 if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
-  console.log(track, feed ,"Track Updated");
-ws.close();
-connect();
-//.map(sender => sender.replaceTrack(newStream.getTracks().find(t => t.kind === sender.track.kind), newStream))
-}
-console.log(   feed ,"Track Updated");
-});
+  stream.getTracks().forEach(track => {
+    ws.close();
+   track.applyConstraints();
+  connect();
+
+})
+
 
 
 //end updating sources 
