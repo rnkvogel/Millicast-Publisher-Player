@@ -194,7 +194,7 @@ return new Promise( (resolve, reject) => {
       .forEach(track => {
         console.log('audio track: ', track);
         pc.addTrack(track, stream)
-     //stream.applyConstraints(constraints);
+
       });
 
     //connect with Websockets for handshake to media server.
@@ -619,19 +619,20 @@ let a = true;
  if (navigator.userAgent.indexOf("Firefox") != -1) {
    a=true;
    }
-//intial on Load Cameraconstraints
-const intConstraints = {
+//intial on Load Camera constraints
+const Constraints = {
      audio: a,
-     video: {
+    video: {
     width: {min: 640, ideal: vWidth, max: 3840},
     height: {min: 480, ideal: vHeight, max: 2160},
     frameRate: { min: videoFps , max: 60 },
- 
+    aspectRatio: 1.77778   /////Not loading
+  
 }
 };
-  navigator.mediaDevices.getUserMedia(intConstraints)
+  navigator.mediaDevices.getUserMedia(Constraints)
    .then(str  => {
-    // track.applyConstraints()
+   // track.applyConstraints()
     resolve(str);
    }).catch(err => {
    console.error('Could not get Media: ', err);
@@ -646,6 +647,7 @@ getMedia()
 .then(feed => {
 stream = feed;
 'use strict';
+const aspectRatio = document.querySelector('select#aspect.value');  
 const videoElement = document.querySelector('video');
 const audioInputSelect = document.querySelector('select#audioSource');
 const audioOutputSelect = document.querySelector('select#audioOutput');
@@ -676,6 +678,7 @@ for (let i = 0; i !== deviceInfos.length; ++i) {
   } else if (deviceInfo.kind === 'videoinput') {
     option.text = deviceInfo.label || `camera ${videoSelect.length + 1}`;
     videoSelect.appendChild(option);
+ 
   } else {
     console.log('Some other kind of source/device: ', deviceInfo);
   }
@@ -761,13 +764,16 @@ console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.
 function updateSource() {
 if (feed) {
  stream.getTracks().forEach(track => {
- track.stop();
+ //track.stop();
+ track.applyConstraints();
 
- console.log(track ,  "Track Stopped");
+ console.log(track ,  "Track Is NEW");
 
 });
+
 }
-//TRACKS NEED TO BE UPDATED
+//TRACKS NEED TO BE UPDATE
+//const aspectRatio = aspect.value;
 const audioSource = audioInputSelect.value;
 const videoSource = videoSelect.value;
 const track = feed.getVideoTracks()[0];
@@ -777,25 +783,43 @@ const newConstraints = {
   width: {min: 640, ideal: vWidth, max: 3840},
   height: {min: 480, ideal: vHeight, max: 2160},
   frameRate: { min: videoFps, max: 60 },
-  advanced: [ {width: vWidth, height:vHeight},{aspectRatio: aspect16.value} ]
+  advanced: [ {width: vWidth, height:vHeight},{aspectRatio: aspect16.value}],
+
 }
+
 };
 navigator.mediaDevices.getUserMedia(newConstraints).then(gotStream)
 .then(function(gotdevices) {
 
+videoFps.onchange = updateSource;  
 audioInputSelect.onchange = updateSource;
 audioOutputSelect.onchange = changeAudioDestination;
 videoSelect.onchange = updateSource;
+ stream.getTracks().forEach(track => {
+ //track.stop();
+ track.applyConstraints();
+ console.log(track ,  "Track Is NEW");
+
+});
+
 
 
 if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
   stream.getTracks().forEach(track => {
-    ws.close();
-   track.applyConstraints();
+  //ws.close();
+  track.applyConstraints();
   connect();
 
 })
 
+  console.log(track, feed ,"Track Updated LIVE");
+//ws.close();
+
+
+}
+
+//console.log(   feed ,"Track Updated");
+});
 
 
 //end updating sources 
@@ -814,8 +838,11 @@ alert('getUserMedia Error: ', e);
 
 }
 
-//set Aspect
+
 function getAspect16() { 
+
+//selObj = document.getElementById('localVideo');
+//selObj.value = "cover" ? 'contain' : 'cover';
 
   if(aspect16.value = '1.7'){
   stream.getTracks().forEach(track => {
@@ -838,7 +865,7 @@ function getAspect4() {
 
 function closeForm() {
 document.getElementById("cogForm").style.display = "none";
-stream.replaceTrack();
+
 }
 
 if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
@@ -846,3 +873,4 @@ if (document.attachEvent ? document.readyState === "complete" : document.readySt
 } else {
   document.addEventListener('DOMContentLoaded', ready);
 }
+
