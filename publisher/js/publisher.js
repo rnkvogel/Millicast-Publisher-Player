@@ -783,7 +783,7 @@ const newConstraints = {
   width: {min: 640, ideal: vWidth, max: 3840},
   height: {min: 480, ideal: vHeight, max: 2160},
   frameRate: { min: videoFps, max: 60 },
-  advanced: [ {width: vWidth, height:vHeight},{aspectRatio: aspect16.value}],
+  advanced: [{aspectRatio: aspect16.value}],
 
 }
 
