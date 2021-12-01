@@ -76,8 +76,7 @@ function startBroadcast() {
 
 }
 //Stop Start
-
-function stopBroadcast(){
+ function stopBroadcast(){
   console.log('Stop Broadcasting');
  ws.onclose = () => {
   console.log(ws + 'Web Socket Connection Closed');
@@ -109,11 +108,9 @@ function toggleMic() {
   }
 }
 //set COG features
-
 function openForm() {
 document.getElementById("cogForm").style.display = "block";
 }
-
 //set bit rate
 let videoBitrate = 0;
 function getBitrate() {
@@ -126,8 +123,6 @@ let videoFps = 24;
 function getFps() {
 videoFps = document.getElementById("framerate").value;
 alert("Your Video Framerate"  + videoFps + " FPS");
-
-//document.getElementById("framerate").disabled = !supported["frameRate"];
 };
   //set codec
   let videoCodec = "h264";
@@ -135,7 +130,6 @@ alert("Your Video Framerate"  + videoFps + " FPS");
   videoCodec = document.getElementById("codec").value;
   alert("Your Video Codec "  + videoCodec);
   };
-
 
 const vWidth = document.querySelector('#vWidth input');
 const vHeight = document.querySelector('#vHeight input');
@@ -160,10 +154,8 @@ if (videoSize=="320x240"){
 let vWidth = 320;
 let vHeight = 240;
 }
-
 };
-
-
+//conect feed to Millicast
 function connect() {
 return new Promise( (resolve, reject) => {
     if (token && !url || token && !jwt) {
@@ -308,9 +300,7 @@ return new Promise( (resolve, reject) => {
     resolve(pc);
   });
 }
-
 //Start stop
-
 function onBroadcasting(){
   let btn = document.getElementById('publishBtn');
   console.log('broadcasting:', isBroadcasting);
@@ -417,7 +407,6 @@ try {
 
   return offer.sdp;
 }
-
 // Gets ice servers.
 function getICEServers() {
   return new Promise((resolve, reject) => {
@@ -549,7 +538,7 @@ function setParams() {
   } else {
     showViewURL();
   }
-  if (token) {// && !!url
+  if (token) {
     updateMillicastAuth()
       .then(d => {
         console.log('millicast auth data:', d);
@@ -602,11 +591,8 @@ function ready() {
 
 //Get users camera and mic
 function getMedia() {
-
-
 return new Promise((resolve, reject) => {
 //getusermedia constraints need to apply and resolve constraints to camera changes
-
 //Chrome handles multiopus
 let a = true;
   //handle stereo request.
@@ -798,11 +784,7 @@ videoSelect.onchange = updateSource;
  stream.getTracks().forEach(track => {
    track.applyConstraints();
  console.log(track ,  "Track Is NEW");
-
 });
-
-
-
 if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
   stream.getTracks().forEach(track => {
   //ws.close();
@@ -810,24 +792,15 @@ if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
   connect();
 
 })
-
-  console.log(track, feed ,"Track Updated LIVE");
-//ws.close();
-
-
+ console.log(track, feed ,"Track Updated LIVE");
 }
-
-//console.log(   feed ,"Track Updated");
 });
-
-
 //end updating sources 
 }
 videoSelect.onchange = updateSource;
 
 updateSource();
 //set cam feed to video window so user can see self.
-//let videoElement = document.getElementsByTagName('video')[0];
 if (videoElement) {
 videoElement.srcObject = feed;
 }
@@ -835,13 +808,11 @@ videoElement.srcObject = feed;
 .catch(e => {
 alert('getUserMedia Error: ', e);
 });
-
 }
-
 
 function getAspect16() { 
 
-//selObj = document.getElementById('localVideo');
+//selObj = document.getElementById('localVideo'); If Firefox
 //selObj.value = "cover" ? 'contain' : 'cover';
 
   if(aspect16.value = '1.7'){
