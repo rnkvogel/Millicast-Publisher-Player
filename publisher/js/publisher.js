@@ -780,8 +780,8 @@ const track = feed.getVideoTracks()[0];
 const newConstraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
-  width: {min: 640, ideal: vWidth, max: 3840},
-  height: {min: 480, ideal: vHeight, max: 2160},
+  width: {min: 360, ideal: vWidth, max: 3840},
+  height: {min: 240, ideal: vHeight, max: 2160},
   frameRate: { min: videoFps, max: 60 },
   advanced: [{aspectRatio: aspect16.value}],
 
@@ -796,8 +796,7 @@ audioInputSelect.onchange = updateSource;
 audioOutputSelect.onchange = changeAudioDestination;
 videoSelect.onchange = updateSource;
  stream.getTracks().forEach(track => {
- //track.stop();
- track.applyConstraints();
+   track.applyConstraints();
  console.log(track ,  "Track Is NEW");
 
 });
@@ -824,6 +823,7 @@ if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
 
 //end updating sources 
 }
+videoSelect.onchange = updateSource;
 
 updateSource();
 //set cam feed to video window so user can see self.
