@@ -591,8 +591,11 @@ function ready() {
 
 //Get users camera and mic
 function getMedia() {
+
+
 return new Promise((resolve, reject) => {
 //getusermedia constraints need to apply and resolve constraints to camera changes
+
 //Chrome handles multiopus
 let a = true;
   //handle stereo request.
@@ -605,38 +608,29 @@ let a = true;
  if (navigator.userAgent.indexOf("Firefox") != -1) {
    a=true;
    }
-//intial on Load Camera constraints
-const Constraints = {
+//intial on Load Cameraconstraints
+const intConstraints = {
      audio: a,
-    video: {
-    width: {min: 640, ideal: vWidth, max: 3840},
-    height: {min: 480, ideal: vHeight, max: 2160},
-    frameRate: { min: videoFps , max: 60 },
-    aspectRatio: 1.77778   /////Not loading
-  
-}
+     video: true
 };
-  navigator.mediaDevices.getUserMedia(Constraints)
-   .then(str  => {
-   // track.applyConstraints()
-    resolve(str);
+   
+  navigator.mediaDevices.getUserMedia(intConstraints)
+   .then(stream  => {
+    // track.applyConstraints()
+    resolve(stream);
    }).catch(err => {
    console.error('Could not get Media: ', err);
    reject(err);
  })
 });
+;
+
 }
 //select Camera Mic Set Speaker
 getMedia()
 .then(feed => {
 stream = feed;
 'use strict';
-const aspectRatio = document.querySelector('select#aspect.value');  
-const videoElement = document.querySelector('video');
-const audioInputSelect = document.querySelector('select#audioSource');
-const audioOutputSelect = document.querySelector('select#audioOutput');
-const videoSelect = document.querySelector('select#videoSource');
-const selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 
 
 audioOutputSelect.disabled = !('sinkId' in HTMLMediaElement.prototype);
@@ -701,44 +695,11 @@ function changeAudioDestination() {
 const audioDestination = audioOutputSelect.value;
 attachSinkId(videoElement, audioDestination);
 }
-function gotStream(feed) {
-stream = feed; // make stream available to console
-videoElement.srcObject = feed;
+function gotStream(stream) {
+//stream = feed; // make stream available to console
+videoElement.srcObject = stream;
 // Refresh button list in case labels have become available
 return navigator.mediaDevices.enumerateDevices();
-}
-//Contstraints FPS H W need to be updated.
-
-function getUserMediaConstraints() {
-const constraints = {};
-constraints.audio = a;
-constraints.video = {};
-if (minWidthInput.value !== '0') {
-  constraints.video.width = {};
- constraints.video.width.min = minWidthInput.value;
-}
-if (maxWidthInput.value !== '0') {
-  constraints.video.width = constraints.video.width || {};
-  constraints.video.width.max = maxWidthInput.value;
-}
-if (minHeightInput.value !== '0') {
-  constraints.video.height = {};
-  constraints.video.height.min = minHeightInput.value;
-}
-if (maxHeightInput.value !== '0') {
-  constraints.video.height = constraints.video.height || {};
-  constraints.video.height.max = maxHeightInput.value;
-}
-if (minFramerateInput.value !== '0') {
-  constraints.video.frameRate = {};
-  constraints.video.frameRate.min = minFramerateInput.value;
-}
-if (maxFramerateInput.value !== '0') {
-  constraints.video.frameRate = constraints.video.frameRate || {};
-  constraints.video.frameRate.max = maxFramerateInput.value;
-}
-
-return constraints;
 }
 function handleError(error) {
 console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
@@ -760,19 +721,19 @@ if (feed) {
 //const aspectRatio = aspect.value;
 const audioSource = audioInputSelect.value;
 const videoSource = videoSelect.value;
-const track = feed.getVideoTracks()[0];
-const newConstraints = {
+const track = stream.getVideoTracks()[0];
+const constraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
-  width: {min: 360, ideal: vWidth, max: 3840},
-  height: {min: 240, ideal: vHeight, max: 2160},
+  width: {min: 360, ideal: 1280, max: 3840},
+  height: {min: 240, ideal: 720, max: 2160},
   frameRate: { min: videoFps, max: 60 },
-  advanced: [{aspectRatio: aspect16.value}],
+  advanced: [ {width: vWidth, height:vHeight},{aspectRatio: aspect16.value} ],
 
 }
 
 };
-navigator.mediaDevices.getUserMedia(newConstraints).then(gotStream)
+navigator.mediaDevices.getUserMedia(constraints).then(gotStream)
 .then(function(gotdevices) {
 
 videoFps.onchange = updateSource;  
@@ -780,9 +741,14 @@ audioInputSelect.onchange = updateSource;
 audioOutputSelect.onchange = changeAudioDestination;
 videoSelect.onchange = updateSource;
  stream.getTracks().forEach(track => {
-   track.applyConstraints();
+ //track.stop();
+ track.applyConstraints();
  console.log(track ,  "Track Is NEW");
+
 });
+
+
+
 if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
   stream.getTracks().forEach(track => {
   //ws.close();
@@ -790,15 +756,23 @@ if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
   connect();
 
 })
- console.log(track, feed ,"Track Updated LIVE");
+
+  console.log(track, feed ,"Track Updated LIVE");
+//ws.close();
+
+
 }
+
+//console.log(   feed ,"Track Updated");
 });
+
+
 //end updating sources 
 }
 videoSelect.onchange = updateSource;
-
 updateSource();
 //set cam feed to video window so user can see self.
+//let videoElement = document.getElementsByTagName('video')[0];
 if (videoElement) {
 videoElement.srcObject = feed;
 }
@@ -806,12 +780,11 @@ videoElement.srcObject = feed;
 .catch(e => {
 alert('getUserMedia Error: ', e);
 });
+
 }
 
-function getAspect16() { 
 
-//selObj = document.getElementById('localVideo'); If Firefox
-//selObj.value = "cover" ? 'contain' : 'cover';
+function getAspect16() { 
 
   if(aspect16.value = '1.7'){
   stream.getTracks().forEach(track => {
@@ -842,4 +815,3 @@ if (document.attachEvent ? document.readyState === "complete" : document.readySt
 } else {
   document.addEventListener('DOMContentLoaded', ready);
 }
-
