@@ -21,123 +21,152 @@ let accountId = params.get('viewTxt');
 
 let player1 = "https://rnkvogel.github.io/Millicast-Publisher-Player/publisher/player/?accountId=" + accountId + "&streamName=" + streamName ;
 
-const codec = 'h264'; //'vp8', 'vp9'
-const stereo = true;//true for stereo
-const useSimulcast = false;//true for simulcast. (chrome only)
+  const codec = 'h264'; //'vp8', 'vp9'
+  const stereo = true;//true for stereo
+  const useSimulcast = false;//true for simulcast. (chrome only)
+  
+  let pc;//peer connection
+  let ws;//live websocket
+  let isBroadcasting = false;
 
-
-let pc;//peer connection
-let ws;//live websocket
-let isBroadcasting = false;
-
-// You can add them to the url as a prameter
-// ex:( /publisher.html?token=8e16b5fff53e3&streamName=feed1&accountId=L7c3p0 ).
-//media stream object from local user mic and camera.
-let stream;
-//Ice Servers:
-let iceServers = [];
-//form items and variables they are tied to.
-let views      = [
-  {form: 'tokenTxt', param: 'token'},
-  {form: 'streamTxt', param: 'streamName'},
-  {form: 'viewTxt', param: 'accountId'}
-];
+  // You can add them to the url as a prameter
+  // ex:( /publisher.html?token=8e16b5fff53e3&streamName=feed1&accountId=L7c3p0 ).
+  //media stream object from local user mic and camera.
+  let stream;
+  //Ice Servers:
+  let iceServers = [];
+  //form items and variables they are tied to.
+  let views      = [
+    {form: 'tokenTxt', param: 'token'},
+    {form: 'streamTxt', param: 'streamName'},
+    {form: 'viewTxt', param: 'accountId'}
+  ];
 //start stop publishing
-function startBroadcast() {
-  //if missing params, assume the form has them.
-  if (!token || !streamName || !accountId) {
-    getFormParams();
+  function startBroadcast() {
+    //if missing params, assume the form has them.
+    if (!token || !streamName || !accountId) {
+      getFormParams();
+    }
+    // get a list of  ice servers.
+    getICEServers()
+      .then(list => {
+        iceServers = list;
+        //ready to connect.
+        connect();
+      })
+      .catch(e => {
+        alert('Error: ', e);
+        connect();//proceed with no (TURN)
+      });
   }
-  // get a list of  ice servers.
-  getICEServers()
-    .then(list => {
-      iceServers = list;
-      //ready to connect.
-      connect();
-    })
-    .catch(e => {
-      alert('Error: ', e);
-      connect();//proceed with no (TURN)
+ function startBroadcast() {
+      if(isBroadcasting) {
+     stopBroadcast();
+    return;
+    }
+    //if missing params, assume the form has them.
+    if (!token || !streamName || !accountId) {
+      getFormParams();
+    }
+    // get a list of  ice servers.
+    getICEServers()
+      .then(list => {
+        iceServers = list;
+        //ready to connect.
+        connect();
+      })
+      .catch(e => {
+        alert('Error: ', e);
+        connect();//proceed with no (TURN)
     });
+
 }
-function startBroadcast() {
-    if(isBroadcasting) {
-   stopBroadcast();
-  return;
+  //Stop Start
+
+  function stopBroadcast(){
+    console.log('Stop Broadcasting');
+   ws.onclose = () => {
+    console.log(ws + 'Web Socket Connection Closed');
+   };
+   
+    pc.close();
+    pc = null;
+    ws.close();
+    ws = null;
+    jwt = null;
+    
+    isBroadcasting = false;
+    onBroadcasting();
   }
-  //if missing params, assume the form has them.
-  if (!token || !streamName || !accountId) {
-    getFormParams();
-  }
-  // get a list of  ice servers.
-  getICEServers()
-    .then(list => {
-      iceServers = list;
-      //ready to connect.
-      connect();
-    })
-    .catch(e => {
-      alert('Error: ', e);
-      connect();//proceed with no (TURN)
-  });
-
-}
-//Stop Start
- function stopBroadcast(){
-  console.log('Stop Broadcasting');
- ws.onclose = () => {
-  console.log(ws + 'Web Socket Connection Closed');
- };
-
-  pc.close();
-  pc = null;
-  ws.close();
-  ws = null;
-  jwt = null;
-
-  isBroadcasting = false;
-  onBroadcasting();
-}
 
 //Mic on off
-function toggleMic() {
-  let b = !stream.getAudioTracks()[0].enabled;
-  stream.getAudioTracks()[0].enabled = b;
-  let micMuted = !b;
-  console.log('toggleMic muted:', micMuted);
-  //micOffIcon
-  let btn = document.getElementById('micMuteBtn');
-  btn.value = micMuted ? 'UNMUTE MIC' : 'MUTE MIC';
-  if (btn.value == 'UNMUTE MIC'){
-  btn.style.backgroundColor = "red";
-  }else{
-   btn.style.backgroundColor = "green";
+  function toggleMic() {
+    let b = !stream.getAudioTracks()[0].enabled;
+    stream.getAudioTracks()[0].enabled = b;
+    let micMuted = !b;
+    console.log('toggleMic muted:', micMuted);
+    //micOffIcon
+    let btn = document.getElementById('micMuteBtn');
+    btn.value = micMuted ? 'UNMUTE MIC' : 'MUTE MIC';
+    if (btn.value == 'UNMUTE MIC'){
+    btn.style.backgroundColor = "red"; 
+    }else{
+     btn.style.backgroundColor = "green";   
+    }
   }
-}
-//set COG features
+ //set COG features
 function openForm() {
-document.getElementById("cogForm").style.display = "block";
+  document.getElementById("cogForm").style.display = "block";
 }
-//set bit rate
-let videoBitrate = 0;
-function getBitrate() {
-videoBitrate = document.getElementById("bitrate").value;
-alert("Your Video Bitrate "  + videoBitrate + "  BPS");
 
-};
-//set frame rate
-let videoFps = 24;
-function getFps() {
-videoFps = document.getElementById("framerate").value;
-alert("Your Video Framerate"  + videoFps + " FPS");
-};
+   //set bit rate
+  let videoBitrate = 0;
+  function getBitrate() {
+  videoBitrate = document.getElementById("bitrate").value;
+  alert("Your Video Bitrate "  + videoBitrate + "  BPS");
+
+  };
+  //set frame rate
+  let videoFps = 24;
+  function getFps() {
+  videoFps = document.getElementById("framerate").value;
+  alert("Your Video Framerate"  + videoFps + "FPS");
+
+  };
   //set codec
   let videoCodec = "h264";
   function getCodec() {
   videoCodec = document.getElementById("codec").value;
   alert("Your Video Codec "  + videoCodec);
-  };
 
+  };
+  //set bit rate for screen share
+  let videoBitrateSS = 3000;
+  function getBitrateSS() {
+  videoBitrateSS = document.getElementById("bitrateSS").value;
+  alert("Your Video Bitrate "  + videoBitrateSS + "  BPS");
+
+  };
+/*
+ //set Aspect
+  let aspectRatio = "1.7777";
+  
+  function getAspect() {
+  aspectRatio = document.getElementById("aspect").value;
+  alert("Your Aspect "  + aspectRatio );
+  selObj = document.getElementById('localVideo');
+  //selObj.value = "cover" ? 'contain' : 'cover';
+    if (aspectRatio.value = "1.7777"){
+    selObj.style.objectFit = "cover"; 
+    aspectRatio.value= '1.7';
+    }  
+    if(aspectRatio.value ='1.4'){
+    selObj.style.objectFit = "contain";
+    aspectRatio.value = '1.4';
+    //conect();
+    }
+  };
+*/
 const vWidth = document.querySelector('#vWidth input');
 const vHeight = document.querySelector('#vHeight input');
 //set Size
@@ -161,8 +190,10 @@ if (videoSize=="320x240"){
 let vWidth = 320;
 let vHeight = 240;
 }
+
 };
-//conect feed to Millicast
+
+  
 function connect() {
 return new Promise( (resolve, reject) => {
     if (token && !url || token && !jwt) {
@@ -193,7 +224,7 @@ return new Promise( (resolve, reject) => {
       .forEach(track => {
         console.log('audio track: ', track);
         pc.addTrack(track, stream)
-
+      // stream.applyMediaConstraints();
       });
 
     //connect with Websockets for handshake to media server.
@@ -268,24 +299,36 @@ return new Promise( (resolve, reject) => {
             }).join('\n');
             console.log('trimed a=extmap-allow-mixed - sdp \n',remotesdp);
           }
-          //CHROME 94 Bit rate is lower asjusted
-          let answer = new RTCSessionDescription(
-            { type: 'answer',
-              sdp:  remotesdp + "a=x-google-flag:conference\r\n",
-              sdp: data.sdp + "a=MID:video\r\nb=AS:" + videoBitrate  +"\r\n"
+       //    if (navigator.userAgent.indexOf("Firefox") != -1) {
+          
+        //  remotesdp.replace('nb=AS:','nb=TIAS:');
 
+        //  }
+
+    
+          //Chrome 94 bit rate is 1/5
+ 
+           let answer = new RTCSessionDescription(
+           
+            { type: 'answer', sdp:  remotesdp + "a=x-google-flag:conference\r\n",
+             sdp: data.sdp + "a=MID:video\r\nb=AS:" + document.getElementById("bitrate").value  +"\r\n"
             }
-          );
+
+           );
+
           if (navigator.userAgent.indexOf("Firefox") != -1) {
-           answer = new RTCSessionDescription(
-           { type: 'answer', sdp:  remotesdp + "a=x-google-flag:conference\r\n",
+            
+             answer = new RTCSessionDescription(
+           
+            { type: 'answer', sdp:  remotesdp + "a=x-google-flag:conference\r\n",
              sdp: data.sdp + "a=MID:video\r\nb=TIAS:" + document.getElementById("bitrate").value * 800 +"\r\n"            }
 
            );
           }
 
-
-
+      
+      
+          
           pc.setRemoteDescription(answer)
             //brodcast begin
             .then(d => {
@@ -307,7 +350,9 @@ return new Promise( (resolve, reject) => {
     resolve(pc);
   });
 }
+
 //Start stop
+
 function onBroadcasting(){
   let btn = document.getElementById('publishBtn');
   console.log('broadcasting:', isBroadcasting);
@@ -331,7 +376,6 @@ function onBroadcasting(){
 
 function setSimulcast(offer) {
   //support for multiopus
-  ///// temporary patch for now
   let isChromium = window.chrome;
   let winNav = window.navigator;
   let vendorName = winNav.vendor;
@@ -396,7 +440,7 @@ try {
       //Add SIM group
       sdp += "a=ssrc-group:SIM " + ssrcs.join(" ") + "\r\n";
       //Update sdp in offer without the rid stuff
-      //sdp: data.sdp + "a=MID:video\r\nb=AS:" + 3000 +"\r\n";
+      //sdp: data.sdp + "a=MID:video\r\nb=AS:" + videoBitrate +"\r\n";
       offer.sdp = sdp;
       //Add RID equivalent to send it to the sfu
       sdp += "a=simulcast:send a;b;c\r\n";
@@ -414,6 +458,7 @@ try {
 
   return offer.sdp;
 }
+
 // Gets ice servers.
 function getICEServers() {
   return new Promise((resolve, reject) => {
@@ -545,7 +590,7 @@ function setParams() {
   } else {
     showViewURL();
   }
-  if (token) {
+  if (token) {// && !!url
     updateMillicastAuth()
       .then(d => {
         console.log('millicast auth data:', d);
@@ -598,8 +643,11 @@ function ready() {
 
 //Get users camera and mic
 function getMedia() {
+
+
 return new Promise((resolve, reject) => {
 //getusermedia constraints need to apply and resolve constraints to camera changes
+
 //Chrome handles multiopus
 let a = true;
   //handle stereo request.
@@ -612,32 +660,30 @@ let a = true;
  if (navigator.userAgent.indexOf("Firefox") != -1) {
    a=true;
    }
-//intial on Load Camera constraints
-const Constraints = {
+//intial on Load Cameraconstraints
+const intConstraints = {
      audio: a,
-    video: {
-    width: {min: 640, ideal: vWidth, max: 3840},
-    height: {min: 480, ideal: vHeight, max: 2160},
-    frameRate: { min: videoFps , max: 60 },
-    aspectRatio: 1.77778   /////Not loading
-  
-}
+     video: true
 };
-  navigator.mediaDevices.getUserMedia(Constraints)
-   .then(str  => {
-   // track.applyConstraints()
-    resolve(str);
+   
+  navigator.mediaDevices.getUserMedia(intConstraints)
+   .then(stream  => {
+    // track.applyConstraints()
+    resolve(stream);
    }).catch(err => {
    console.error('Could not get Media: ', err);
    reject(err);
  })
 });
+;
+
 }
 //select Camera Mic Set Speaker
 getMedia()
 .then(feed => {
 stream = feed;
 'use strict';
+
 
 audioOutputSelect.disabled = !('sinkId' in HTMLMediaElement.prototype);
 
@@ -707,39 +753,6 @@ videoElement.srcObject = stream;
 // Refresh button list in case labels have become available
 return navigator.mediaDevices.enumerateDevices();
 }
-//Contstraints FPS H W need to be updated.
-
-function getUserMediaConstraints() {
-const constraints = {};
-constraints.audio = a;
-constraints.video = {};
-if (minWidthInput.value !== '0') {
-  constraints.video.width = {};
- constraints.video.width.min = minWidthInput.value;
-}
-if (maxWidthInput.value !== '0') {
-  constraints.video.width = constraints.video.width || {};
-  constraints.video.width.max = maxWidthInput.value;
-}
-if (minHeightInput.value !== '0') {
-  constraints.video.height = {};
-  constraints.video.height.min = minHeightInput.value;
-}
-if (maxHeightInput.value !== '0') {
-  constraints.video.height = constraints.video.height || {};
-  constraints.video.height.max = maxHeightInput.value;
-}
-if (minFramerateInput.value !== '0') {
-  constraints.video.frameRate = {};
-  constraints.video.frameRate.min = minFramerateInput.value;
-}
-if (maxFramerateInput.value !== '0') {
-  constraints.video.frameRate = constraints.video.frameRate || {};
-  constraints.video.frameRate.max = maxFramerateInput.value;
-}
-
-return constraints;
-}
 function handleError(error) {
 console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
 }
@@ -748,7 +761,7 @@ console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.
 function updateSource() {
 if (feed) {
  stream.getTracks().forEach(track => {
-
+ //track.stop();
  track.applyConstraints();
 
  console.log(track ,  "Track Is NEW");
@@ -760,28 +773,29 @@ if (feed) {
 //const aspectRatio = aspect.value;
 const audioSource = audioInputSelect.value;
 const videoSource = videoSelect.value;
-const track = feed.getVideoTracks()[0];
+const track = stream.getVideoTracks()[0];
 const constraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
-  width: {min: 360, ideal: vWidth, max: 3840},
-  height: {min: 240, ideal: vHeight, max: 2160},
+  width: {min: 360, ideal: 1280, max: 3840},
+  height: {min: 240, ideal: 720, max: 2160},
   frameRate: { min: videoFps, max: 60 },
   advanced: [ {width: vWidth, height:vHeight},{aspectRatio: aspect16.value} ],
+
 }
 
 };
 navigator.mediaDevices.getUserMedia(constraints).then(gotStream)
 .then(function(gotdevices) {
-
-videoFps.onchange = updateSource;  
-audioInputSelect.onchange = updateSource;
-audioOutputSelect.onchange = changeAudioDestination;
-videoSelect.onchange = updateSource;
  stream.getTracks().forEach(track => {
-   track.applyConstraints();
+ //track.stop();
+ track.applyConstraints();
  console.log(track ,  "Track Is NEW");
+
 });
+updateSource();
+
+
 if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
   stream.getTracks().forEach(track => {
   //ws.close();
@@ -789,14 +803,26 @@ if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
   connect();
 
 })
- console.log(track, feed ,"Track Updated LIVE");
-}
-});
-//end updating sources 
+
+  console.log(track, feed ,"Track Updated LIVE");
+//ws.close();
+
+
 }
 
+//console.log(   feed ,"Track Updated");
+});
+
+
+//end updating sources 
+}
+videoFps.onchange = updateSource;  
+audioInputSelect.onchange = updateSource;
+audioOutputSelect.onchange = changeAudioDestination;
+videoSelect.onchange = updateSource;
 updateSource();
 //set cam feed to video window so user can see self.
+//let videoElement = document.getElementsByTagName('video')[0];
 if (videoElement) {
 videoElement.srcObject = feed;
 }
@@ -804,12 +830,11 @@ videoElement.srcObject = feed;
 .catch(e => {
 alert('getUserMedia Error: ', e);
 });
+
 }
 
-function getAspect16() { 
 
-//selObj = document.getElementById('localVideo'); If Firefox
-//selObj.value = "cover" ? 'contain' : 'cover';
+function getAspect16() { 
 
   if(aspect16.value = '1.7'){
   stream.getTracks().forEach(track => {
