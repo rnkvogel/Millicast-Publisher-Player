@@ -873,5 +873,4 @@ if (document.attachEvent ? document.readyState === "complete" : document.readySt
 } else {
   document.addEventListener('DOMContentLoaded', ready);
 }
-, ready);
-}
+
