@@ -643,8 +643,6 @@ function ready() {
 
 //Get users camera and mic
 function getMedia() {
-
-
 return new Promise((resolve, reject) => {
 //getusermedia constraints need to apply and resolve constraints to camera changes
 
@@ -662,22 +660,27 @@ let a = true;
    }
 //intial on Load Cameraconstraints
 const intConstraints = {
-     audio: a,
-     video: true
+    audio: a,
+    video: {
+    width: {min: 640, ideal: 1280, max: 1920},
+    height: {min: 480, ideal: 720, max: 1080},
+    frameRate: { min: videoFps , max: 60 },
+    advanced: [ {aspectRatio: 1.777778} ]
+
+}
 };
-   
+
   navigator.mediaDevices.getUserMedia(intConstraints)
-   .then(stream  => {
+   .then(str  => {
     // track.applyConstraints()
-    resolve(stream);
+    resolve(str);
    }).catch(err => {
    console.error('Could not get Media: ', err);
    reject(err);
  })
 });
-;
-
 }
+
 //select Camera Mic Set Speaker
 getMedia()
 .then(feed => {
