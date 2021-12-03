@@ -639,7 +639,6 @@ const Constraints = {
    reject(err);
  })
 });
-;
 
 }
 //select Camera Mic Set Speaker
@@ -776,7 +775,7 @@ if (feed) {
 //const aspectRatio = aspect.value;
 const audioSource = audioInputSelect.value;
 const videoSource = videoSelect.value;
-const track = feed.getVideoTracks()[0];
+const track = stream.getVideoTracks()[0];
 const newConstraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
@@ -813,8 +812,6 @@ if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
 })
 
   console.log(track, feed ,"Track Updated LIVE");
-//ws.close();
-
 
 }
 
