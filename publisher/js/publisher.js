@@ -625,8 +625,6 @@ const Constraints = {
    reject(err);
  })
 });
-;
-
 }
 //select Camera Mic Set Speaker
 getMedia()
