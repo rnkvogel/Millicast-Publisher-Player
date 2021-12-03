@@ -718,12 +718,12 @@ attachSinkId(videoElement, audioDestination);
 }
 function gotStream(feed) {
 stream = feed; // make stream available to console
-videoElement.srcObject = feed;
+videoElement.srcObject = stream;
 // Refresh button list in case labels have become available
 return navigator.mediaDevices.enumerateDevices();
 }
 //Contstraints FPS H W need to be updated.
-
+/*
 function getUserMediaConstraints() {
 const constraints = {};
 constraints.audio = a;
@@ -755,6 +755,7 @@ if (maxFramerateInput.value !== '0') {
 
 return constraints;
 }
+*/
 function handleError(error) {
 console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
 }
