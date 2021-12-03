@@ -1,5 +1,12 @@
 const apiPath = 'https://director.millicast.com/api/director/publish';
 const turnUrl = 'https://turn.millicast.com/webrtc/_turn';
+const aspectRatio = document.querySelector('select#aspect.value');  
+const videoElement = document.querySelector('video');
+const audioInputSelect = document.querySelector('select#audioSource');
+const audioOutputSelect = document.querySelector('select#audioOutput');
+const videoSelect = document.querySelector('select#videoSource');
+const selectors = [audioInputSelect, audioOutputSelect, videoSelect];
+
 
 //Millicast required info.
 let url;// path to Millicast Server - Returned from API
@@ -631,13 +638,6 @@ getMedia()
 .then(feed => {
 stream = feed;
 'use strict';
-const aspectRatio = document.querySelector('select#aspect.value');  
-const videoElement = document.querySelector('video');
-const audioInputSelect = document.querySelector('select#audioSource');
-const audioOutputSelect = document.querySelector('select#audioOutput');
-const videoSelect = document.querySelector('select#videoSource');
-const selectors = [audioInputSelect, audioOutputSelect, videoSelect];
-
 
 audioOutputSelect.disabled = !('sinkId' in HTMLMediaElement.prototype);
 
@@ -701,9 +701,9 @@ function changeAudioDestination() {
 const audioDestination = audioOutputSelect.value;
 attachSinkId(videoElement, audioDestination);
 }
-function gotStream(feed) {
-stream = feed; // make stream available to console
-videoElement.srcObject = feed;
+function gotStream(stream) {
+//stream = feed; // make stream available to console
+videoElement.srcObject = stream;
 // Refresh button list in case labels have become available
 return navigator.mediaDevices.enumerateDevices();
 }
@@ -748,7 +748,7 @@ console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.
 function updateSource() {
 if (feed) {
  stream.getTracks().forEach(track => {
- //track.stop();
+
  track.applyConstraints();
 
  console.log(track ,  "Track Is NEW");
@@ -761,18 +761,17 @@ if (feed) {
 const audioSource = audioInputSelect.value;
 const videoSource = videoSelect.value;
 const track = feed.getVideoTracks()[0];
-const newConstraints = {
+const constraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
   width: {min: 360, ideal: vWidth, max: 3840},
   height: {min: 240, ideal: vHeight, max: 2160},
   frameRate: { min: videoFps, max: 60 },
-  advanced: [{aspectRatio: aspect16.value}],
-
+  advanced: [ {width: vWidth, height:vHeight},{aspectRatio: aspect16.value} ],
 }
 
 };
-navigator.mediaDevices.getUserMedia(newConstraints).then(gotStream)
+navigator.mediaDevices.getUserMedia(constraints).then(gotStream)
 .then(function(gotdevices) {
 
 videoFps.onchange = updateSource;  
@@ -795,7 +794,6 @@ if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
 });
 //end updating sources 
 }
-videoSelect.onchange = updateSource;
 
 updateSource();
 //set cam feed to video window so user can see self.
