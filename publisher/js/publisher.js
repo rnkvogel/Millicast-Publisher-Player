@@ -1,5 +1,6 @@
 const apiPath = 'https://director.millicast.com/api/director/publish';
 const turnUrl = 'https://turn.millicast.com/webrtc/_turn';
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
 //Millicast required info.
 let url;// path to Millicast Server - Returned from API
@@ -777,7 +778,7 @@ if (feed) {
 const audioSource = audioInputSelect.value;
 const videoSource = videoSelect.value;
 const track = stream.getVideoTracks()[0];
-const newConstraints = {
+const constraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
   width: {min: 640, ideal: vWidth, max: 3840},
@@ -788,7 +789,7 @@ const newConstraints = {
 }
 
 };
-navigator.mediaDevices.getUserMedia(newConstraints).then(gotStream)
+navigator.mediaDevices.getUserMedia(constraints).then(gotStream)
 .then(function(gotdevices) {
 
 videoFps.onchange = updateSource;  
@@ -822,7 +823,7 @@ if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
 
 //end updating sources 
 }
-
+videoSelect.onchange = updateSource;
 updateSource();
 //set cam feed to video window so user can see self.
 //let videoElement = document.getElementsByTagName('video')[0];
