@@ -621,19 +621,14 @@ let a = true;
    a=true;
    }
 //intial on Load Camera constraints
-const Constraints = {
+const intConstraints = {
      audio: a,
-    video: {
-    width: {min: 640, ideal: vWidth, max: 3840},
-    height: {min: 480, ideal: vHeight, max: 2160},
-    frameRate: { min: videoFps , max: 60 },
-    aspectRatio: 1.77778   /////Not loading
-  
-}
+     video: true
 };
-  navigator.mediaDevices.getUserMedia(Constraints)
+
+  navigator.mediaDevices.getUserMedia(intConstraints)
    .then(str  => {
-   // track.applyConstraints()
+    // track.applyConstraints()
     resolve(str);
    }).catch(err => {
    console.error('Could not get Media: ', err);
@@ -781,8 +776,8 @@ const track = stream.getVideoTracks()[0];
 const constraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
-  width: {min: 640, ideal: vWidth, max: 3840},
-  height: {min: 480, ideal: vHeight, max: 2160},
+  width: {min: 360, ideal: 1280, max: 3840},
+  height: {min: 240, ideal: 720, max: 2160},
   frameRate: { min: videoFps, max: 60 },
   advanced: [ {width: vWidth, height:vHeight},{aspectRatio: aspect16.value}],
 
