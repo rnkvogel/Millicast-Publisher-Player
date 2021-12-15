@@ -631,7 +631,8 @@ getMedia()
 .then(feed => {
 stream = feed;
 'use strict';
-const aspectRatio = document.querySelector('select#aspect.value');  
+const aspectRatio = document.querySelector('select#aspect.value');
+const videoSize = document.querySelector('select#size.value'); 
 const videoElement = document.querySelector('video');
 const audioInputSelect = document.querySelector('select#audioSource');
 const audioOutputSelect = document.querySelector('select#audioOutput');
