@@ -138,7 +138,7 @@ alert("Your Video Framerate"  + videoFps + " FPS");
   };
 
 
-//set Size
+//set Size currntly not set in constraints
 
 function getSize() {
 let vWidth = 640;
