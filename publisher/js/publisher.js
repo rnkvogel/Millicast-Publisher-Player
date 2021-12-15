@@ -140,7 +140,7 @@ alert("Your Video Framerate"  + videoFps + " FPS");
 
 //set Size currntly not set in constraints
 
-  let vHeight= 999;
+  let vHeight= 480;
   function getSize() {
   vHeight=document.getElementById("size").value;
   stream.getTracks().forEach(track => {
