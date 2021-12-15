@@ -140,29 +140,18 @@ alert("Your Video Framerate"  + videoFps + " FPS");
 
 //set Size currntly not set in constraints
 
-function getSize() {
-let vWidth = 640;
-let vHeight = 480;  
-videoSize = document.getElementById("size").value;
-alert("Your Video HW "  + videoSize);
-if (videoSize=="1920x1080"){
-vWidth = 1920;
-vHeight = 1080;
-}
-if (videoSize=="1280x720"){
-vWidth = 1280;
-vHeight = 720;
-}
-if (videoSize=="640x480"){
-vWidth = 640;
-vHeight = 480;
-}
-if (videoSize=="320x240"){
-vWidth = 320;
-vHeight = 240;
-}
+  let vHeight= 999;
+  function getSize() {
+  vHeight=document.getElementById("size").value;
+  stream.getTracks().forEach(track => {
+  track.applyConstraints({height:vHeight});
+  console.log(track ,  "New Hieght");
+
+})
+ alert("Ideal height is " + vHeight);
 
 };
+
 
 
 function connect() {
@@ -718,40 +707,7 @@ videoElement.srcObject = stream;
 // Refresh button list in case labels have become available
 return navigator.mediaDevices.enumerateDevices();
 }
-//Contstraints FPS H W need to be updated.
-/*
-function getUserMediaConstraints() {
-const constraints = {};
-constraints.audio = a;
-constraints.video = {};
-if (minWidthInput.value !== '0') {
-  constraints.video.width = {};
- constraints.video.width.min = minWidthInput.value;
-}
-if (maxWidthInput.value !== '0') {
-  constraints.video.width = constraints.video.width || {};
-  constraints.video.width.max = maxWidthInput.value;
-}
-if (minHeightInput.value !== '0') {
-  constraints.video.height = {};
-  constraints.video.height.min = minHeightInput.value;
-}
-if (maxHeightInput.value !== '0') {
-  constraints.video.height = constraints.video.height || {};
-  constraints.video.height.max = maxHeightInput.value;
-}
-if (minFramerateInput.value !== '0') {
-  constraints.video.frameRate = {};
-  constraints.video.frameRate.min = minFramerateInput.value;
-}
-if (maxFramerateInput.value !== '0') {
-  constraints.video.frameRate = constraints.video.frameRate || {};
-  constraints.video.frameRate.max = maxFramerateInput.value;
-}
 
-return constraints;
-}
-*/
 function handleError(error) {
 console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
 }
@@ -776,8 +732,8 @@ const track = stream.getVideoTracks()[0];
 const constraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
-  width: {min: 640, ideal: 1280, max: 9999},  //additional constraints can be set as needed
-  height: {min: 480, ideal: 720, max: 9999},
+  width: { ideal:9999},
+  height: { ideal:vHeight},
   frameRate: { min: videoFps, max: 60 },
   advanced: [{aspectRatio: aspect16.value}],
 
