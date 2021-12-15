@@ -122,14 +122,18 @@ videoBitrate = document.getElementById("bitrate").value;
 alert("Your Video Bitrate "  + videoBitrate + "  BPS");
 
 };
-//set frame rate
-let videoFps = 24;
-function getFps() {
-videoFps = document.getElementById("framerate").value;
-alert("Your Video Framerate"  + videoFps + " FPS");
+  //set frame rate
+  let videoFps = 24;
+  function getFps() {
+  videoFps = document.getElementById("framerate").value;
+  stream.getTracks().forEach(track => {
+  track.applyConstraints({frameRate:videoFps});
+  console.log(track ,  "FPS Updated"); 
+ })
+  alert("Your Video Framerate"  + videoFps + "FPS");
 
-//document.getElementById("framerate").disabled = !supported["frameRate"];
-};
+  };
+
   //set codec
   let videoCodec = "h264";
   function getCodec() {
