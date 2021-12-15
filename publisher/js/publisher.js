@@ -138,28 +138,28 @@ alert("Your Video Framerate"  + videoFps + " FPS");
   };
 
 
-const vWidth = document.querySelector('#vWidth input');
-const vHeight = document.querySelector('#vHeight input');
 //set Size
-let videoSize = null;
+
 function getSize() {
+let vWidth = 640;
+let vHeight = 480;  
 videoSize = document.getElementById("size").value;
 alert("Your Video HW "  + videoSize);
 if (videoSize=="1920x1080"){
-let vWidth = 1920;
-let vHeight = 1080;
+vWidth = 1920;
+vHeight = 1080;
 }
 if (videoSize=="1280x720"){
-let vWidth = 1280;
-let vHeight = 720;
+vWidth = 1280;
+vHeight = 720;
 }
 if (videoSize=="640x480"){
-let vWidth = 640;
-let vHeight = 480;
+vWidth = 640;
+vHeight = 480;
 }
 if (videoSize=="320x240"){
-let vWidth = 320;
-let vHeight = 240;
+vWidth = 320;
+vHeight = 240;
 }
 
 };
@@ -776,8 +776,8 @@ const track = stream.getVideoTracks()[0];
 const constraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
-  width: {min: 640, ideal: 1280, max: 9999},  //additional constraints can be set as needed
- height: {min: 480, ideal: 720, max: 9999},
+  width: {min: vWidth, ideal: 1280, max: 9999},  //additional constraints can be set as needed
+ height: {min: vHeight, ideal: 720, max: 9999},
   frameRate: { min: videoFps, max: 60 },
   advanced: [{aspectRatio: aspect16.value}],
 
