@@ -776,8 +776,8 @@ const track = stream.getVideoTracks()[0];
 const constraints = {
   audio: {deviceId: audioSource ? {exact: audioSource} : undefined },
   video: {deviceId: videoSource ? {exact: videoSource} : undefined ,
-  width: {min: vWidth, ideal: 1280, max: 9999},  //additional constraints can be set as needed
- height: {min: vHeight, ideal: 720, max: 9999},
+  width: {min: 640, ideal: 1280, max: 9999},  //additional constraints can be set as needed
+  height: {min: 480, ideal: 720, max: 9999},
   frameRate: { min: videoFps, max: 60 },
   advanced: [{aspectRatio: aspect16.value}],
 
