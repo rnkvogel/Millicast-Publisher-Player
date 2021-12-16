@@ -779,8 +779,7 @@ if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
 
 //end updating sources 
 }
-
-updateSource();
+videoSelect.onchange = updateSource;
 if (videoElement) {
 videoElement.srcObject = feed;
 }
