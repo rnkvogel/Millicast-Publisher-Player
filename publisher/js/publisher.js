@@ -779,10 +779,8 @@ if ((MediaStreamTrack.readyState == "live") || (isBroadcasting == true)) {
 
 //end updating sources 
 }
-videoSelect.onchange = updateSource;
+
 updateSource();
-//set cam feed to video window so user can see self.
-//let videoElement = document.getElementsByTagName('video')[0];
 if (videoElement) {
 videoElement.srcObject = feed;
 }
