@@ -12,7 +12,6 @@ body {
   bottom: 0;
   right: 0;
 }
-
 .container {
 position: relative;
 text-align: center;
@@ -29,14 +28,12 @@ width: 100vw;
   object-fit: contain;
 }
 a{
-    color: #fff; 
-    }
-select {
-  width: 180px;
+color: #fff;
+font-size:18px;
 }
 
 #userCntView {
-          position: absolute;
+          position: fixed;
           color: white;
           right: 12px;
           top: 12px;
@@ -50,63 +47,41 @@ select {
           font-size: 13px;
         }
 #publishBtn {
+border-radius: 25px;
 background-color: #2ea00b;
 opacity: 80%;
 color: #ffffff;
 background-position: absolute;
-padding: 12px;
-border-radius: 100%;
--moz-border-radius: 100%;
--webkit-border-radius: 100%;
-margin:10px
+padding: 10px;
+
+margin:1px
 }
 #publishBtn:focus{
+border-radius: 25px;
 background-color:red;
+animation: blinker 1s linear infinite;
   }
 
 
 #micMuteBtn {
-    
+border-radius: 25px;
 background-color: #2ea00b;
 opacity: 80%;
 color: #ffffff;
 background-position: absolute;
-padding: 12px;
-border-radius: 100%;
--moz-border-radius: 100%;
--webkit-border-radius: 100%;
- margin:10px
+padding: 10px;
+
+margin:1px
     }
 #micMuteBtn:focus{
+border-radius: 25px;
 background-color:red;
 
   }
 #viewerURL{
-position: absolute;
-top: 8px;
-right: 80%;
-padding-bottom: 5%;
 }
-#aspect{
-        background-color: #2ea00b;
-        color: #ffffff;
-        padding: 10px;
-        border-radius: 10px;
-        -moz-border-radius: 10px;
-        -webkit-border-radius: 10px;
-        margin:10px
-    }
 
-#aspectNormal {
-        background-color: #2ea00b;
-        color: #ffffff;
-        padding: 10px;
-        border-radius: 10px;
-        -moz-border-radius: 10px;
-        -webkit-border-radius: 10px;
-        margin:10px
-    }
-  .slider {
+.slider {
   color: red;
     -webkit-appearance: none;
      width: 4.2em;
@@ -129,141 +104,169 @@ padding-bottom: 5%;
     width: 100vw;
 }
 
-/* Bottom left text */
-.bottom-left {
-    position: fixed;
-    bottom: 2px;
-    left: 43%;
-}
-/* Top left text iframe*/
-.top-left {
-position: fixed;
-top: 5%;
-width:23%;
-height: 20%;
-left:13%;
-}
-
-/* Top right text */
-.top-right {
-position:fixed;
-top:2%;
-left:0;
-}
-
-/* Bottom right text */
-.bottom-right {
-position: absolute;
-bottom: 8px;
-right: 55%;
-padding-bottom: 10%;
-}
-
-/* Centered text */
-.centered {
-   position: absolute;
-   margin-left; 40%;
-    top: 8px;
-    left: 16px;  
+.dock{
+  position: absolute;
+  bottom: 0px;
+  left: 0;
 }
 /* Select text */
-.selectSS {
+.screen-select{
 opacity: 80%;
 position: absolute;
-right: 132%;
-bottom: 7%;
+right: 125%;
+bottom: 6%;
 
 }
 
-.select1 {
-position: absolute;
-opacity: 80%;
-right: 102%;
-bottom: 7%;
-
-}
-.select1-content {
-  display: none;
-  position: absolute;
-
-}
-.select1:hover .select1-content {
-  display: block;
-  right: 5%;
-  bottom: 100%; 
-  width: 240px;
+/* style the items (options), including the selected item: */
+ .select-selected:after {
 }
 
-.select2 {
-position: absolute;
-opacity: 80%;
-left:100%;
-bottom: 7%;
+/* Point the arrow upwards when the select box is open (active): */
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
 }
-.select2-content {
-  display: none;
-  position: absolute;
 
-}
-.select2:hover .select2-content {
-  display: block;
-   right: 5%;
-  bottom: 100%; 
-  width: 240px;
-}
-.select3 {
-position: absolute;
-opacity: 80%;
-left:128%;
-bottom: 7%;
-}
-.select3-content {
-  display: none;
-  position: absolute;
-
-}
-.select3:hover .select3-content {
-  display: block;
-  right: 5%;
-  bottom: 100%; 
-  width: 220px;
-}
-.select4 {
-position: absolute;
-opacity: 80%;
-left:155%;
-bottom: 7%;
-}
-.select4-content {
-  display: none;
-  position: absolute;
-
-}
-.select4:hover .select4-content {
-  position: absolute;
-  z-index: 1;
-  display: block;
+/* style the items (options), including the selected item: */
+.select-items div,.select-selected {
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
   cursor: pointer;
-  bottom: 50%;
-  left: 5%;
-  width: 200px;
 }
-.selectBit {
-position: absolute;  
+
+/* Style items (options): */
+.select-items {
+}
+
+/* Hide the items when the select box is closed: */
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+}/*selector end  */
+
+.vidpub{
+position:fixed;
+left: 0;
+bottom:0;
+width:12%;
+height:8%;
+padding-left: 1%;
+
+}
+
+
+.cam-select {
+float: left;
+opacity: 80%;
+padding: 1px;
+display: inline-block;
+}
+.cam-select-content {
+ display: none;
+ position: absolute;
+
+}
+.cam-select:hover .cam-select-content {
+  display: block;
+  left: 6%;
+  bottom: 100%;
+  width: 250px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.mic-select {
+  position:absolute;
+  opacity: 80%;
+  float: right;
+  padding: 1px;
+  display: inline-block;
+}
+.mic-select-content {
+  display:none ;
+  position: absolute;
+  
+}
+.mic-select:hover .mic-select-content {
+  display: block;
+  left: 6%;
+  bottom: 100%;
+  width: 250px; 
+  cursor: pointer;
+}
+
+.publishing {
+ position:fixed;
+ opacity: 80%;
+ left: 38%;
+ bottom:0;
+ padding-bottom:1%;
+}
+
+.vidshare{
+position:fixed;
+right:0;
+bottom:0;
+width:12%;
+height:8%;
+padding-right:2%;
+
+}
+
+.spk-select {
+  position:absolute;
+  opacity: 80%;
+  float: right;
+  padding: 1px;
+  display: inline-block;
+   
+}
+.spk-select-content {
+  display: none;
+  position: absolute;
+  left:0;
+
+}
+.spk-select:hover .spk-select-content {
+  display: block;
+  right: 15%;
+  bottom: 100%;
+  width: 250px;
+}
+.share-select {
+float: left;
+opacity: 80%; 
+padding: 1px;
+display: inline-block;
+
+
+}
+.share-select-content {
+  display:none;
+  position: absolute;
+  padding-right:2%;
+
+}
+.share-select:hover .share-select-content {
+  display:block;
+  font-size:1em;
+  content: url("<a id="viewerUrl"   href="" target="_blank" class="share-select-content" ></a>") ;
+  right: 15%;
+  bottom: 120%;
+  padding-right:150%;
+  width: 250px;
+  visibility: visible;
+}
+.share-select:hover:after{
+
+}
+.bitrate-select {
+position: absolute;
 top:0;
 left: 2%;
-}
-.selectBit-content {
-  display: none;
-  position: absolute;
-}
-.selectBit:hover .selectBit-content {
-  display: block;
-  position: center;
-  text-align: center;
-  top: 100%;
-  left: 5%; 
-  width: 100px;
 }
 #iframe{
 border: -1px;
@@ -272,7 +275,7 @@ width: 100%;
 
 }
 table, th, td {
- color: #edf0f2; 
+ color: #edf0f2;
 }
 
 #localVideo{
@@ -281,10 +284,14 @@ height: 100vh;
 left: 0;
 right: 0;
 }
+
 img {
+border-radius:25px;
 position:left;
-padding:5px;
+padding:0px;
 width: 42px;
+height:42px;
+background:#000000;
 }
 .account-data{
    display: block;
@@ -303,8 +310,35 @@ width: 42px;
   position: fixed;
   top: 0;
   left: 0;
-  width: 3%;
-  height: 8%;
+  width: 4%;
+  height: 10%;
+  padding-left: 1%;
+  padding-top: 1%;
+
+}
+select {
+  width: 150px;
+}
+
+/* Style the arrow inside the select element: */
+.select-selected:after {
+}
+
+/* Point the arrow upwards when the select box is open (active): */
+.select-selected.select-arrow-active:after {
+}
+
+/* style the items (options), including the selected item: */
+.select-items div,.select-selected {
+  cursor: pointer;
+}
+
+/* Style items (options): */
+.select-items {
+}
+
+/* Hide the items when the select box is closed: */
+.select-hide {
 
 }
 
@@ -322,19 +356,19 @@ width: 42px;
 /* Add styles to the form container */
 .form-container {
   max-width: 200px;
-  padding: 10px;
-  background-color: white;
+  padding: 12px;
+  background-color: rgba(0,0,0,0.5); 
+
 }
 
 /* Full-width input fields */
 .form-container input[type=text], .form-container input[type=text] {
   width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
+  padding: 5px;
+  margin: 5px 0 0px 0;
   border: none;
   background: #000000;
 }
-
 /* When the inputs get focus, do something */
 .form-container input[type=text]:focus, .form-container input[type=bitrate]:focus {
   background-color: #ddd;
@@ -343,7 +377,7 @@ width: 42px;
 
 /* Set a style for the submit/login button */
 .form-container .btn {
-       background-color: red;
+       background-color:red;
         color: #ffffff;
         padding: 10px;
         border-radius: 10px;
@@ -368,16 +402,7 @@ width: 42px;
   opacity: 1;
 }
 
-#cancel{
-       background-color: red;
-        color: #ffffff;
-        padding: 10px;
-        border-radius: 10px;
-        -moz-border-radius: 10px;
-        -webkit-border-radius: 10px;
-        margin:10px
-}
-#aspect16 {
+.bitrate-select-content {
         background-color: #313630;
         color: #ffffff;
         padding: 10px;
@@ -385,7 +410,46 @@ width: 42px;
         -moz-border-radius: 10px;
         -webkit-border-radius: 10px;
         margin:10px
+
     }
+
+.fps-select-content  {
+        background-color: #313630;
+        color: #ffffff;
+        padding: 10px;
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        margin:10px
+  }
+ .codec-select-content  {
+        background-color: #313630;
+        color: #ffffff;
+        padding: 10px;
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        margin:10px
+  }
+.size-select-content{
+        background-color: #313630;
+        color: #ffffff;
+        padding: 10px;
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        margin:10px
+  }
+#aspect16{
+        background-color: #313630;
+        color: #ffffff;
+        padding: 10px;
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+         margin:10px
+    }
+
 #aspect4 {
         background-color: #313630;
         color: #ffffff;
@@ -393,42 +457,15 @@ width: 42px;
         border-radius: 10px;
         -moz-border-radius: 10px;
         -webkit-border-radius: 10px;
-        margin:10px
-    }
-#bitrate {
-        background-color: #313630;
-        color: #ffffff;
-        padding: 10px;
-        border-radius: 10px;
-        -moz-border-radius: 10px;
-        -webkit-border-radius: 10px;
-        margin:10px
+         margin:10px
     }
 
-#codec {
-        background-color: #313630;
+ #cancel{
+       background-color:#313630;;
         color: #ffffff;
         padding: 10px;
         border-radius: 10px;
         -moz-border-radius: 10px;
         -webkit-border-radius: 10px;
         margin:10px
-  }
- #framerate {
-        background-color: #313630;
-        color: #ffffff;
-        padding: 10px;
-        border-radius: 10px;
-        -moz-border-radius: 10px;
-        -webkit-border-radius: 10px;
-        margin:10px
-  }
- #size{
-        background-color: #313630;
-        color: #ffffff;
-        padding: 10px;
-        border-radius: 10px;
-        -moz-border-radius: 10px;
-        -webkit-border-radius: 10px;
-        margin:10px
-  }
+}
