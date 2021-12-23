@@ -102,8 +102,8 @@ function toggleMic() {
   console.log('toggleMic muted:', micMuted);
   //micOffIcon
   let btn = document.getElementById('micMuteBtn');
-  btn.value = micMuted ? 'UNMUTE MIC' : 'MUTE MIC';
-  if (btn.value == 'UNMUTE MIC'){
+  btn.value = micMuted ? 'UNMUTE' : 'MUTE MIC';
+  if (btn.value == 'UNMUTE'){
   btn.style.backgroundColor = "red";
   }else{
    btn.style.backgroundColor = "green";
