@@ -267,14 +267,17 @@ return new Promise( (resolve, reject) => {
           let answer = new RTCSessionDescription(
             { type: 'answer',
               sdp:  remotesdp + "a=x-google-flag:conference\r\n",
-              sdp: data.sdp + "a=MID:video\r\nb=AS:" + videoBitrate  +"\r\n"
+             // sdp: data.sdp + "a=MID:video\r\nb=AS:" + videoBitrate  +"\r\n"
+             //Test SDP Outgoing 
+               sdp: data.sdp + "a=MID:video\r\nb=AS:" + document.getElementById("bitrate").value*300  +"\r\n"
+
 
             }
           );
           if (navigator.userAgent.indexOf("Firefox") != -1) {
            answer = new RTCSessionDescription(
            { type: 'answer', sdp:  remotesdp + "a=x-google-flag:conference\r\n",
-             sdp: data.sdp + "a=MID:video\r\nb=TIAS:" + document.getElementById("bitrate").value * 800 +"\r\n"            }
+             sdp: data.sdp + "a=MID:video\r\nb=TIAS:" + document.getElementById("bitrate").value *1200 +"\r\n"            }
 
            );
           }
