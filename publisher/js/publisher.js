@@ -269,7 +269,7 @@ return new Promise( (resolve, reject) => {
               sdp:  remotesdp + "a=x-google-flag:conference\r\n",
              // sdp: data.sdp + "a=MID:video\r\nb=AS:" + videoBitrate  +"\r\n"
              //Test SDP Outgoing 
-               sdp: data.sdp + "a=MID:video\r\nb=AS:" + document.getElementById("bitrate").value*300  +"\r\n"
+               sdp: data.sdp + "a=MID:video\r\nb=AS:" + document.getElementById("bitrate").value +"\r\n"
 
 
             }
