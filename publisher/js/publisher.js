@@ -263,27 +263,20 @@ return new Promise( (resolve, reject) => {
             }).join('\n');
             console.log('trimed a=extmap-allow-mixed - sdp \n',remotesdp);
           }
-          //CHROME 94 Bit rate is lower asjusted
+           if (navigator.userAgent.indexOf("Firefox") != -1) {
+           remotesdp.replace('nb=AS:','nb=TIAS:');
+
+          }
+          
+          //CHROME
+          
           let answer = new RTCSessionDescription(
             { type: 'answer',
               sdp:  remotesdp + "a=x-google-flag:conference\r\n",
-             // sdp: data.sdp + "a=MID:video\r\nb=AS:" + videoBitrate  +"\r\n"
-             //Test SDP Outgoing 
-               sdp: data.sdp + "a=MID:video\r\nb=AS:" + document.getElementById("bitrate").value +"\r\n"
-
-
+             sdp: data.sdp + "a=MID:video\r\nb=AS:" + videoBitrate  +"\r\n"
             }
           );
-          if (navigator.userAgent.indexOf("Firefox") != -1) {
-           answer = new RTCSessionDescription(
-           { type: 'answer', sdp:  remotesdp + "a=x-google-flag:conference\r\n",
-             sdp: data.sdp + "a=MID:video\r\nb=TIAS:" + document.getElementById("bitrate").value *1200 +"\r\n"            }
-
-           );
-          }
-
-
-
+          
           pc.setRemoteDescription(answer)
             //brodcast begin
             .then(d => {
